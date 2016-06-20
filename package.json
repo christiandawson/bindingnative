@@ -1,0 +1,10 @@
+{
+  "name"            : "binding-native",
+  "version"         : "0.1.0",
+  "description"     : "Native Application that builds stories for the Binding Engine",
+  "scripts"         : {
+      "start" : "electron main.js"
+  },
+  "author"          : "Christian Nyx",
+  "main"            : "main.js"
+}
