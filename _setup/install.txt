@@ -1,0 +1,7 @@
+Installation Instructions for BindingNative
+
+1. Installing required Node Modules
+    a. Install electron-prebuilt
+        npm install electron-prebuilt --save-dev
+    b. Install sqlite3
+        npm install sqlite3

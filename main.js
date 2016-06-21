@@ -1,4 +1,5 @@
 const electron = require('electron');
+// const connection = require('sqlite3').verbose();
 
 // Module to control application life.
 const {app} = electron;
@@ -17,7 +18,7 @@ function createWindow() {
   win.loadURL(`file://${__dirname}/index.html`);
 
   // Open the DevTools.
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -26,6 +27,11 @@ function createWindow() {
     // when you should delete the corresponding element.
     win = null;
   });
+}
+
+function dbConnect() {
+  // var db = new connection.Database(`file://${__dirname}/assets/data/binding.db`);
+
 }
 
 // This method will be called when Electron has finished
