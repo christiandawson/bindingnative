@@ -1,5 +1,9 @@
 const electron = require('electron');
-// const connection = require('sqlite3').verbose();
+const connection = require('sqlite3').verbose();
+const path = require('path');
+const dbPath = path.resolve(__dirname, 'assets/data/binding.db');
+const db = new connection.Database(dbPath);
+// var $ = jQuery = require('jquery');
 
 // Module to control application life.
 const {app} = electron;
@@ -9,16 +13,18 @@ const {BrowserWindow} = electron;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
+let debugmode = true;
 
 function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({width: 800, height: 600});
+  win = new BrowserWindow({width: (debugmode ? 1500 : 800), height: (debugmode ? 800 : 600)});
 
   // and load the index.html of the app.
   win.loadURL(`file://${__dirname}/index.html`);
 
   // Open the DevTools.
-  // win.webContents.openDevTools();
+  if (debugmode)
+    win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -26,12 +32,29 @@ function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     win = null;
+    db.close();
   });
+
+  getStories();
 }
 
-function dbConnect() {
-  // var db = new connection.Database(`file://${__dirname}/assets/data/binding.db`);
-
+function getStories() {
+   db.each("SELECT * FROM story", function(err, rows){
+      if (err !== null) {
+        console.log(err);
+      }
+      else {
+        // var stories = JSON.parse(rows);
+        if (rows.length == 0) {
+          // $("storymenu").html("<em>you haven't written any stories yet.</em>");
+          console.log("0 stories");
+        }
+        else {
+          // $("storymenu").html("<em>you have " + stories.length + " .</em>");
+          console.log(rows);
+        }
+      }
+   });
 }
 
 // This method will be called when Electron has finished
